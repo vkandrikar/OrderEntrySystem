@@ -1,0 +1,20 @@
+.wrapper {
+  background-color: rgba(0, 164, 227, .2);
+  border-radius: 20px;
+}
+
+.orderTable {
+  background-color: white;
+}
+
+.searchBox {
+  padding-right: 0px;
+}
+
+.tableRow{
+  cursor:pointer;
+}
+
+.csvBtn {
+  color: white !important;
+}

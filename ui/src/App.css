@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  box-shadow: 3px 3px 40px 0 rgba(43, 43, 43, .1);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.navbar-brand {
+  color: #00a4e3 !important;
+}
+
+.active {
+  color: grey;
+  cursor: default; 
+}
+
+.active:hover {
+  color: grey;
+}
+
+.modal-footer {
+  justify-content: center !important;
+}
+
