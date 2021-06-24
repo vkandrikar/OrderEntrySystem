@@ -49,7 +49,7 @@ export const generateChartData = (dataArr) => {
   })
 
   data.labels = chartLables;
-  data.datasets.data = chartData;
+  data.datasets[0].data = chartData;
 
   return data;
 }
