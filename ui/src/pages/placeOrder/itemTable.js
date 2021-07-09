@@ -1,11 +1,11 @@
 import React from 'react'
-import { Table, Button, Form, Col } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 
 import homeStyle from '../../styles/home.module.css'
 import { prepareItemList } from './helper'
 
 function ItemTable({ items, mode, existingItems }) {
-  console.log("***Item Table***")
+  //console.log("***Item Table***")
   return (
     <Table responsive striped bordered hover varient="light" size="sm" className={homeStyle.orderTable}>
       <thead>

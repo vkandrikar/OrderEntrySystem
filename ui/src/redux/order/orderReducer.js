@@ -2,7 +2,8 @@ import {
   GET_ORDER_FAILURE, GET_ORDER_REQUEST, GET_ORDER_SUCCESS,
   PLACE_ORDER_FAILURE, PLACE_ORDER_REQUEST, PLACE_ORDER_SUCCESS,
   DELETE_ORDER_FAILURE, DELETE_ORDER_SUCCESS, DELETE_ORDER_REQUEST,
-  UPDATE_ORDER_FAILURE, UPDATE_ORDER_SUCCESS, UPDATE_ORDER_REQUEST
+  UPDATE_ORDER_FAILURE, UPDATE_ORDER_SUCCESS, UPDATE_ORDER_REQUEST,
+  RESET_ORDER
  } from './orderTypes'
 
 const initialState = {
@@ -53,6 +54,12 @@ const orderReducer = (state = initialState, action) => {
       loading: false,
       orderMsg: null,
       error: action.payload
+    }
+    case RESET_ORDER: return {
+      loading: false,
+      orders: [],
+      error: '',
+      orderMsg: null
     }
     default: return state
   }

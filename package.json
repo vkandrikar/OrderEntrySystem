@@ -4,23 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "test": "jest",
+    "start": "NODE_ENV=dev nodemon app.js"
   },
   "author": "Vijay Kandrikar",
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
+    "custom-env": "^2.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "graphql": "^15.5.0",
+    "graphql-playground-middleware-express": "^1.7.22",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "graphql-tools": "^7.0.5",
+    "jest": "^27.0.4",
+    "json-graphql-server": "^2.2.3",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   }
 }

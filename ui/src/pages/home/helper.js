@@ -39,7 +39,7 @@ export const getOrderData = (orders, clickHandler) => {
       shipDate = (new Date(parseInt(shipDate))).toDateString();
     
     return (
-      <tr key={order.id} className={homeStyle.tableRow} onDoubleClick={() => clickHandler(order)}>
+      <tr key={order.id} data-testid={`order-${order.id}`} className={homeStyle.tableRow} onDoubleClick={() => clickHandler(order)}>
         <td>{key+1}</td>
         <td>{order.id}</td>
         <td>{(new Date(parseInt(order.order_date))).toDateString()}</td>

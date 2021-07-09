@@ -1,10 +1,10 @@
 
 let data = {
-  labels: ['Item1', 'Item2', 'Item3', 'Item4', 'Item5', 'Item6'],
+  labels: ['1', '2', '3', '4', '5', '6'],
   datasets: [
     {
       label: '# of Sales',
-      data: [12, 19, 3, 5, 2, 3],
+      data: [0,0,0,0,0,0],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -41,15 +41,14 @@ export const options = {
 export const generateChartData = (dataArr) => {
   if (!dataArr) return [];
   
-  let chartLables = [];
-  let chartData = [];
+  const chartLables = [], chartData = [];
   dataArr.map( (item) => {
     chartLables.push(item.code);
     chartData.push(item.sale_count);
   })
 
   data.labels = chartLables;
-  data.datasets.data = chartData;
+  data.datasets[0].data = chartData;
 
   return data;
 }

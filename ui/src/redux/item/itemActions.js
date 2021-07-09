@@ -1,56 +1,70 @@
 import axios from 'axios'
 
-import { 
+import {
   GET_ITEM_REQUEST, GET_ITEM_SUCCESS, GET_ITEM_FAILURE,
-  GET_SALES_REQUEST, GET_SALES_SUCCESS, GET_SALES_FAILURE  
+  GET_SALES_REQUEST, GET_SALES_SUCCESS, GET_SALES_FAILURE,
+  RESET_SALES
 } from './itemTypes'
 
-export const getItemRequest = () => {
+const API = process.env.REACT_APP_API_HOST;
+
+const getItemRequest = () => {
   return {
     type: GET_ITEM_REQUEST
   }
 }
 
-export const getItemSuccess = (orders) => {
+const getItemSuccess = (orders) => {
   return {
     type: GET_ITEM_SUCCESS,
     payload: orders
   }
 }
 
-export const getItemFailure = (error) => {
+const getItemFailure = (error) => {
   return {
     type: GET_ITEM_FAILURE,
     payload: error
   }
 }
 
-export const getSalesRequest = () => {
+const getSalesRequest = () => {
   return {
     type: GET_SALES_REQUEST
   }
 }
 
-export const getSalesSuccess = (orders) => {
+const getSalesSuccess = (orders) => {
   return {
     type: GET_SALES_SUCCESS,
     payload: orders
   }
 }
 
-export const getSalesFailure = (error) => {
+const getSalesFailure = (error) => {
   return {
     type: GET_SALES_FAILURE,
     payload: error
   }
 }
 
+const resetSales = () => {
+  return {
+    type: RESET_SALES
+  }
+}
+
+export const resetSalesData = () => {
+  return async (dispatch) => {
+    dispatch(resetSales());
+  }
+}
+
 export const getItems = () => {
   return async (dispatch) => {
     dispatch(getItemRequest());
-
     try {
-      const result = await axios.post("http://localhost:8900/orderentrysystem",
+      const result = await axios.post(API,
         {
           query: `
           query {
@@ -78,7 +92,7 @@ export const getSalesData = () => {
     dispatch(getSalesRequest());
 
     try {
-      const result = await axios.post("http://localhost:8900/orderentrysystem",
+      const result = await axios.post(API,
         {
           query: `
           query {

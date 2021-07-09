@@ -9,7 +9,8 @@ import BodyOverlay from '../../elements/overlay'
 
 function Stats({ salesData, getSalesData }) {
   useEffect(() => {
-    getSalesData();
+    if(salesData.sales && !salesData.sales.sales)
+      getSalesData();
   }, []);
 
   return (
@@ -28,12 +29,12 @@ function Stats({ salesData, getSalesData }) {
             :
             <>
               {
-                salesData.sales.sales ?
+                salesData.sales ?
                   <>
-                    <Row className="p-1 my-2" className='header text-center'>
+                    <Row className="p-1 my-2 header text-center">
                       <h1 className='title'>Sales Chart</h1>
                     </Row>
-                    <Row className="p-1 my-2" className='header'>
+                    <Row className="p-1 my-2 header">
                       <Bar data={generateChartData(salesData.sales.sales)} options={options} />
                     </Row>
                   </>

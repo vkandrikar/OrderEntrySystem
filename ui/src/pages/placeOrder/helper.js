@@ -1,7 +1,6 @@
-import { Table, Button, Form, Col, Alert } from 'react-bootstrap'
+import { Form, Col, Alert } from 'react-bootstrap'
 
 let selectedItems = [];
-let itemData;
 
 const handleOnChange = (evt, item) => {
   item["quantity"] = parseInt(evt.target.value);
@@ -24,7 +23,7 @@ const checkItem = (item, array) => {
 
   const result = array.filter((i) => {
     if (i && item.id === i.id)
-      return i 
+      return i;
   })
 
   return result;
@@ -84,8 +83,8 @@ export const getFormData = (evt, formAction, sItems, id = null) => {
 
   const data = {
     id: id,
-    customerName: evt.target.customer_name.value,
-    customerAddress: evt.target.customer_address.value,
+    customerName: (evt.target.customer_name.value).trim(),
+    customerAddress: (evt.target.customer_address.value).trim(),
     type: type
   };
   data.items = sItems.map((item) => {
@@ -116,4 +115,13 @@ export const mergeArrayObjects = (arr1, arr2) => {
     }
   })
   return [...result, ...arr2];
+}
+
+export const validateFormData = (data) => {
+  const errors = {};
+  if (data.customerName === "") errors.name = "Name cannot be blank";
+  if (data.customerAddress === "") errors.address = "Address cannot be blank";
+  if (data.items.length === 0) errors.items = "Select at least one item";
+
+  return errors;
 }

@@ -5,14 +5,15 @@ import { CSVLink } from "react-csv"
 import { Container, Row, Col, Form, FormControl, Alert, Spinner, Button, Modal } from 'react-bootstrap'
 
 import homeStyle from '../../styles/home.module.css'
-import { getOrders, searchOrders } from '../../redux/index'
+import { getOrders, resetOrderData, resetSalesData } from '../../redux/index'
 import OrderTable from './orderTable'
 import BodyOverlay from '../../elements/overlay'
-import { exportData, headers, getExportData } from './helper'
+import { headers, getExportData } from './helper'
 
-function Home({ data, fetchOrders, searchOrders }) {
+function Home({ data, fetchOrders, resetOrders, resetSales }) {
   useEffect(() => {
-    fetchOrders();
+    if (!data.order.orders?.orders?.data)
+      fetchOrders();
   }, [])
 
   const searchData = debounce((pattern) => {
@@ -28,21 +29,21 @@ function Home({ data, fetchOrders, searchOrders }) {
           args.orderId = pattern;
           args.customerName = null;
         }
-        searchOrders(args);
+        fetchOrders(args);
       }
     } else {
-      searchOrders(args);
+      fetchOrders(args);
     }
   }, 500);
 
-  console.log("HOME");
-  //console.log(getExportData(data.order.orders.orders));
+  //console.log("HOME");
+  //console.log((data.order.orders?.orders?.data));
   return (
     <Container fluid className="d-inline-block position-relative">
       <Row className="p-1 my-2">
         <Form.Group as={Col} md={{ span: 2, offset: 6 }} controlId="orderId" className="text-end">
           <Button variant="success">
-            <CSVLink data={getExportData(data.order.orders.orders)} headers={headers} className={homeStyle.csvBtn}>
+            <CSVLink data={getExportData(data.order.orders?.orders?.data)} headers={headers} className={homeStyle.csvBtn}>
               Export Data
             </CSVLink>
           </Button>
@@ -74,7 +75,7 @@ function Home({ data, fetchOrders, searchOrders }) {
                       }
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button variant="secondary" onClick={() => window.location.reload()}>
+                      <Button variant="secondary" onClick={() => {resetOrders(); resetSales();}}>
                         Close
                     </Button>
                     </Modal.Footer>
@@ -83,7 +84,7 @@ function Home({ data, fetchOrders, searchOrders }) {
                   null
               }
               <Row className={`${homeStyle.wrapper} p-2 pt-4`}>
-                <OrderTable orders={data.order.orders.orders} />
+                <OrderTable orders={data.order.orders?.orders?.data} />
               </Row>
             </>
       }
@@ -102,8 +103,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchOrders: () => dispatch(getOrders()),
-    searchOrders: (args) => dispatch(searchOrders(args))
+    fetchOrders: (args) => dispatch(getOrders(args)),
+    resetOrders: () => dispatch(resetOrderData()),
+    resetSales: () => dispatch(resetSalesData())
   }
 }
 

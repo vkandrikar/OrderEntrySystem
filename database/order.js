@@ -5,16 +5,21 @@ const orderItem = require("./orderItem");
 module.exports = {
 	fnGetOrders: async (dbConn, args) => {
 		let result;
+		const output = {};
 		if (args.order_id === null && (args.customer_name === null || args.customer_name === "null")) {
 			const [orders] = await dbConn.execute(orderSql.select);
 			result = orders;
+
+			const [orderCount] = await dbConn.execute(orderSql.count);
+			output.total = orderCount[0].total;
 		}
 		else if (args.order_id !== null || args.customer_name !== null) {
 			//const [orders] = await dbConn.execute(orderSql.selectByIdOrCustomer, [args.order_id, args.customer_name]);
-			const query = `${orderSql.selectByIdOrCustomer} (id = ${args.order_id}) OR (customer_name LIKE "%${args.customer_name}%")`;
+			const query = `${orderSql.selectByIdOrCustomer} (id = ${args.order_id}) OR (customer_name LIKE "%${args.customer_name}%") ORDER BY id DESC`;
 			//console.log(query)
 			const [orders] = await dbConn.execute(query);
 			result = orders;
+			output.total = result.length;
 		}
 		
 		if (result.length > 0 && args.is_items) {
@@ -36,7 +41,9 @@ module.exports = {
 			));
 			result = finalResult;
 		}
-		return result;
+
+		output.data = result;
+		return output;
 	},
 
 	fnPlaceUpdateOrder: async (dbConn, args) => {
@@ -132,7 +139,11 @@ module.exports = {
 	fnDeleteOrder: async (dbConn, id) => {
 		try {
 			const [result] = await dbConn.execute(orderSql.deleteById, [id]);
-			return `Order ${id} deleted`;
+			if (result && result.affectedRows !== 0) {
+				return `Order ${id} deleted`;
+			} else {
+				return `Order id ${id} not found`;
+			}
 		} catch (err) {
 			throw new Error("Unable to delete record: " + err.message)
 		}

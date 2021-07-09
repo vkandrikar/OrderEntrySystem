@@ -1,6 +1,7 @@
 import { 
   GET_ITEM_REQUEST, GET_ITEM_SUCCESS, GET_ITEM_FAILURE,
-  GET_SALES_REQUEST, GET_SALES_SUCCESS, GET_SALES_FAILURE  
+  GET_SALES_REQUEST, GET_SALES_SUCCESS, GET_SALES_FAILURE,
+  RESET_SALES 
 } from './itemTypes'
 
 const initialState = {
@@ -18,6 +19,7 @@ const itemReducer = (state = initialState, action) => {
       loading: true
     }
     case GET_ITEM_SUCCESS: return {
+      ...state,
       loading: false,
       items: action.payload,
       error: ''
@@ -37,6 +39,10 @@ const itemReducer = (state = initialState, action) => {
       loading: false,
       sales: [],
       error: action.payload
+    }
+    case RESET_SALES: return {
+      ...state,
+      sales: []
     }
     default: return state
   }

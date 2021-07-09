@@ -1,11 +1,11 @@
 import React from 'react'
-import { Form, Button, Col, Row, Modal, ButtonGroup } from 'react-bootstrap'
+import { Button, Modal } from 'react-bootstrap'
 
 import ItemTable from './itemTable'
 import { getSelectedItems } from './helper'
 
 function Items(props) {
-  console.log("---Items---")
+  //console.log("---Items---")
   return (
     <Modal
       show={props.show} 

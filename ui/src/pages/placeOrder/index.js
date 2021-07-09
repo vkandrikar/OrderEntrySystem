@@ -1,5 +1,5 @@
 import React from 'react'
-import { Jumbotron, Container, Row, Col, Form, FormControl, Alert, Spinner } from 'react-bootstrap'
+import { Container} from 'react-bootstrap'
 
 import OrderForm from './orderForm'
 

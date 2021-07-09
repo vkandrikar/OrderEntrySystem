@@ -1,5 +1,7 @@
 module.exports = {
-  select: 'SELECT * FROM `order`',
+  select: 'SELECT * FROM `order` ORDER BY id DESC',
+
+  count: 'SELECT COUNT(*) as total FROM `order`',
 
   selectByIdOrCustomer: 'SELECT * FROM `order` WHERE',
 

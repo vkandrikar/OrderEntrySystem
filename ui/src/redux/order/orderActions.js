@@ -1,159 +1,137 @@
 import axios from 'axios'
 
-import { 
+import {
   GET_ORDER_FAILURE, GET_ORDER_REQUEST, GET_ORDER_SUCCESS,
   PLACE_ORDER_FAILURE, PLACE_ORDER_REQUEST, PLACE_ORDER_SUCCESS,
   DELETE_ORDER_FAILURE, DELETE_ORDER_REQUEST, DELETE_ORDER_SUCCESS,
-  UPDATE_ORDER_FAILURE, UPDATE_ORDER_SUCCESS, UPDATE_ORDER_REQUEST
- } from './orderTypes'
+  UPDATE_ORDER_FAILURE, UPDATE_ORDER_SUCCESS, UPDATE_ORDER_REQUEST,
+  RESET_ORDER
+} from './orderTypes'
 
-export const getOrderRequest = () => {
+const API = process.env.REACT_APP_API_HOST;
+
+const getOrderRequest = () => {
   return {
     type: GET_ORDER_REQUEST
   }
 }
 
-export const getOrderSuccess = (orders) => {
+const getOrderSuccess = (orders) => {
   return {
     type: GET_ORDER_SUCCESS,
     payload: orders
   }
 }
 
-export const getOrderFailure = (error) => {
+const getOrderFailure = (error) => {
   return {
     type: GET_ORDER_FAILURE,
     payload: error
   }
 }
 
-export const placeOrderRequest = () => {
+const placeOrderRequest = () => {
   return {
     type: PLACE_ORDER_REQUEST
   }
 }
 
-export const placeOrderSuccess = (orders) => {
+const placeOrderSuccess = (orders) => {
   return {
     type: PLACE_ORDER_SUCCESS,
     payload: orders
   }
 }
 
-export const placeOrderFailure = (error) => {
+const placeOrderFailure = (error) => {
   return {
     type: PLACE_ORDER_FAILURE,
     payload: error
   }
 }
 
-export const deleteOrderRequest = () => {
+const deleteOrderRequest = () => {
   return {
     type: DELETE_ORDER_REQUEST
   }
 }
 
-export const deleteOrderSuccess = (orders) => {
+const deleteOrderSuccess = (orders) => {
   return {
     type: DELETE_ORDER_SUCCESS,
     payload: orders
   }
 }
 
-export const deleteOrderFailure = (error) => {
+const deleteOrderFailure = (error) => {
   return {
     type: DELETE_ORDER_FAILURE,
     payload: error
   }
 }
 
-export const updateOrderRequest = () => {
+const updateOrderRequest = () => {
   return {
     type: UPDATE_ORDER_REQUEST
   }
 }
 
-export const updateOrderSuccess = (orders) => {
+const updateOrderSuccess = (orders) => {
   return {
     type: UPDATE_ORDER_SUCCESS,
     payload: orders
   }
 }
 
-export const updateOrderFailure = (error) => {
+const updateOrderFailure = (error) => {
   return {
     type: UPDATE_ORDER_FAILURE,
     payload: error
   }
 }
 
-export const getOrders = () => {
-  return async (dispatch) => {
-    dispatch(getOrderRequest());
-
-    try {
-      const result = await axios.post("http://localhost:8900/orderentrysystem",
-        {
-          query: `
-          query {
-            orders(order_id:null, customer_name: null, is_items: true) {
-            id
-            order_date
-            customer_name
-            customer_address
-            ship_date
-            items {
-              id
-              code
-              description
-              rate
-              quantity
-              tax
-            }
-            gross_order_amount
-            total_tax
-            shipping_tax
-            total_order_amount
-          }
-        }
-        `
-        }
-      );
-      //console.log(result.data.data);
-      dispatch(getOrderSuccess(result.data.data));
-    } catch (err) {
-      dispatch(getOrderFailure(err.message))
-    }
+const resetOrder = () => {
+  return {
+    type: RESET_ORDER
   }
 }
 
-export const searchOrders = (args) => {
+export const resetOrderData = () => {
+  return (dispatch) => {
+    dispatch(resetOrder());
+  }
+}
+
+export const getOrders = (args) => {
   return async (dispatch) => {
     dispatch(getOrderRequest());
 
     try {
-      const result = await axios.post("http://localhost:8900/orderentrysystem",
+      const result = await axios.post(API,
         {
           query: `
           query {
-            orders(order_id:${args.orderId}, customer_name: "${args.customerName}", is_items: true) {
-            id
-            order_date
-            customer_name
-            customer_address
-            ship_date
-            items {
-              id
-              code
-              description
-              rate
-              quantity
-              tax
-            }
-            gross_order_amount
-            total_tax
-            shipping_tax
-            total_order_amount
+            orders(order_id:${args?.orderId ? args.orderId : 'null'}, customer_name: "${args?.customerName ? args.customerName : 'null'}", is_items: true) {
+              total
+              data {
+                id
+                order_date
+                customer_name
+                customer_address
+                ship_date
+                items {
+                  id
+                  code
+                  description
+                  rate
+                  quantity
+                  tax
+                }
+                gross_order_amount
+                total_tax
+                shipping_tax
+                total_order_amount
+              }
           }
         }
         `
@@ -172,7 +150,7 @@ export const placeOrder = (args) => {
     dispatch(placeOrderRequest());
 
     try {
-      const result = await axios.post("http://localhost:8900/orderentrysystem",
+      const result = await axios.post(API,
         {
           query: `
           mutation {
@@ -201,7 +179,7 @@ export const deleteOrder = (orderId) => {
     dispatch(deleteOrderRequest());
 
     try {
-      const result = await axios.post("http://localhost:8900/orderentrysystem",
+      const result = await axios.post(API,
         {
           query: `
           mutation {
@@ -224,7 +202,7 @@ export const updateOrder = (args) => {
     dispatch(updateOrderRequest());
 
     try {
-      const result = await axios.post("http://localhost:8900/orderentrysystem",
+      const result = await axios.post(API,
         {
           query: `
           mutation {
